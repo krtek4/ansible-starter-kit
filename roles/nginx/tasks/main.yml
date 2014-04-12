@@ -1,0 +1,18 @@
+- name: install nginx
+  apt: pkg=nginx state=present
+
+- name: create partials directory
+  file: name=/etc/nginx/conf.d/partials state=directory
+
+- name: install partials
+  copy: src={{ item }} dest=/etc/nginx/conf.d/partials/{{ item }}
+  with_items:
+    - _php_fpm.conf
+    - _php_fuel.conf
+
+- name: remove default vhost
+  file: name=/etc/nginx/sites-{{ item }}/default state=absent
+  with_items:
+      - enabled
+      - available
+  notify: restart nginx
