@@ -1,0 +1,9 @@
+{% extends "default-site.j2" %}
+
+{% block index %}index.php;{% endblock %}
+
+{% block extra %}
+    {{ super() }}
+
+    include conf.d/partials/_php_fuel.conf;
+{% endblock %}

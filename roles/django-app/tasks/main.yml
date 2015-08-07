@@ -1,0 +1,21 @@
+---
+- name: fetchez la vache
+  git: repo={{ git_repo }} dest={{ root_directory }} accept_hostkey=yes
+
+- name: create virtualenv
+  command: virtualenv {{ virtualenv }} creates={{ virtualenv }}
+
+- name: install requirements
+  pip: requirements={{ requirements }} virtualenv={{ virtualenv }}
+
+- name: install gunicorn
+  pip: name=gunicorn virtualenv={{ virtualenv }}
+
+- name: create log directory
+  file: name={{ log_directory }} state=directory
+
+- name: set database url
+  template: src=DATABASE_URL.j2 dest={{ root_directory }}/envdir/local/DATABASE_URL
+
+- name: fix rights
+  shell: chown www-data:www-data -R {{ root_directory }}; chmod ug+rwX -R {{ root_directory }}

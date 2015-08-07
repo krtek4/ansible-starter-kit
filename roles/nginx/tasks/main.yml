@@ -16,3 +16,10 @@
       - enabled
       - available
   notify: restart nginx
+
+- name: create vhost config
+  template: src={{ nginx_template }} dest=/etc/nginx/sites-available/{{ hostname }}
+
+- name: enable vhost
+  file: src=/etc/nginx/sites-available/{{ hostname }} dest=/etc/nginx/sites-enabled/{{ hostname }} state=link
+  notify: reload nginx

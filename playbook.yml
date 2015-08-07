@@ -1,0 +1,9 @@
+---
+- hosts: all
+  roles:
+    - { role: django-app,
+        git_repo: "git@bitbucket.org:krtek/chauvepourlabonnecause.ch.git",
+        hostname: chauvepourlabonnecause.ch,
+        app_name: chauvepourlabonnecause,
+        port: 8000,
+    }

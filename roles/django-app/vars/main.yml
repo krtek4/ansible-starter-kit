@@ -1,0 +1,17 @@
+name: "{{ hostname }}"
+nginx_template: "django-site.j2"
+service_name: "{{ name }}"
+user: "www-data"
+root_directory: "/srv/www/{{ hostname }}"
+log_directory: "{{ root_directory }}/logs"
+requirements: "{{ root_directory }}/requirements/prod.txt"
+virtualenv: "{{ root_directory }}/.env"
+command: "{{ virtualenv }}/bin/gunicorn
+    --error-logfile {{ log_directory }}/error.log
+    --log-level debug 
+    --bind 0.0.0.0:{{ port }} 
+    {{ app_name }}.wsgi:application"
+
+database_name: "{{ name }}"
+database_user: "{{ name | truncate(16, True, '') }}"
+database_password: "toto" # "{{ lookup('password', root_directory + '/.mysqlpassword length=15') }}"

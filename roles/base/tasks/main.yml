@@ -12,4 +12,5 @@
     - mercurial
     - vim
     - ack-grep
+    - build-essential
 
